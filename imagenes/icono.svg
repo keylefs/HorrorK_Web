@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <!-- Fondo Gradiente Oscuro -->
+    <radialGradient id="bgGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#2a0404" />
+      <stop offset="100%" stop-color="#080808" />
+    </radialGradient>
+    
+    <!-- Gradiente Rojo Sangre -->
+    <linearGradient id="redGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff2a2a" />
+      <stop offset="50%" stop-color="#b30000" />
+      <stop offset="100%" stop-color="#4a0000" />
+    </linearGradient>
+
+    <!-- Filtro de Resplandor Rojo (Glow) -->
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="10" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Marco de Fondo -->
+  <rect width="512" height="512" rx="100" fill="url(#bgGlow)" />
+  <rect width="496" height="496" x="8" y="8" rx="92" fill="none" stroke="#8b0000" stroke-width="6" opacity="0.7" />
+
+  <!-- Arañazos en el Fondo -->
+  <g stroke="#ff1a1a" stroke-width="5" opacity="0.25" stroke-linecap="round">
+    <line x1="70" y1="60" x2="130" y2="190" />
+    <line x1="95" y1="50" x2="150" y2="170" />
+    <line x1="390" y1="330" x2="450" y2="450" />
+  </g>
+
+  <!-- Ojos Acechando en la Sombra -->
+  <g filter="url(#glow)">
+    <ellipse cx="190" cy="170" rx="9" ry="4" fill="#ff1a1a" />
+    <ellipse cx="320" cy="170" rx="9" ry="4" fill="#ff1a1a" />
+  </g>
+
+  <!-- Letra 'K' Estilizada y Agresiva -->
+  <path d="M 140,90 L 210,90 L 210,225 L 320,90 L 410,90 L 285,245 L 420,422 L 325,422 L 210,270 L 210,422 L 140,422 Z" 
+        fill="url(#redGrad)" 
+        filter="url(#glow)"
+        stroke="#0d0000" 
+        stroke-width="5" />
+
+  <!-- Brillo / Reflejo en la K -->
+  <path d="M 140,90 L 165,90 L 165,422 L 140,422 Z" fill="#ff6666" opacity="0.35" />
+</svg>
