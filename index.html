@@ -1,0 +1,1428 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horror K | Wiki Oficial & Guía Completa</title>
+
+    <!-- ICONO DE LA PESTAÑA (SVG INLINE DIRECTO) -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='100' fill='%23080808'/><rect width='490' height='490' x='11' y='11' rx='90' fill='none' stroke='%238b0000' stroke-width='10'/><g stroke='%23ff1a1a' stroke-width='5' opacity='0.3' stroke-linecap='round'><line x1='70' y1='60' x2='130' y2='190'/><line x1='390' y1='330' x2='450' y2='450'/></g><ellipse cx='190' cy='170' rx='9' ry='4' fill='%23ff1a1a'/><ellipse cx='320' cy='170' rx='9' ry='4' fill='%23ff1a1a'/><path d='M140 90h70v135L320 90h90L285 245l135 177h-95L210 270v152h-70z' fill='%23ff1a1a'/></svg>" type="image/svg+xml">
+
+    <!-- ESTILOS CSS UNIFICADOS -->
+    <style>
+        :root {
+            --bg-color: #080808;
+            --card-bg: #121212;
+            --card-sub-bg: #181818;
+            --text-color: #e0e0e0;
+            --accent-color: #8b0000;
+            --accent-hover: #ff1a1a;
+            --border-color: #222;
+            --highlight-color: #ff4d4d;
+        }
+
+        * {
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* CAPAS DE NIEBLA ANIMADA DE FONDO */
+        .fog-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .fog-layer {
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            opacity: 0.22;
+            filter: blur(40px);
+        }
+
+        .fog-1 {
+            background: radial-gradient(circle at 20% 30%, rgba(200, 200, 200, 0.15) 0%, transparent 45%),
+                        radial-gradient(circle at 70% 60%, rgba(139, 0, 0, 0.25) 0%, transparent 50%),
+                        radial-gradient(circle at 40% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 40%);
+            animation: fogMove1 32s ease-in-out infinite alternate;
+        }
+
+        .fog-2 {
+            opacity: 0.15;
+            background: radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.12) 0%, transparent 50%),
+                        radial-gradient(circle at 30% 70%, rgba(180, 0, 0, 0.2) 0%, transparent 55%),
+                        radial-gradient(circle at 60% 30%, rgba(100, 100, 100, 0.15) 0%, transparent 45%);
+            animation: fogMove2 24s ease-in-out infinite alternate-reverse;
+        }
+
+        @keyframes fogMove1 {
+            0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+            33% { transform: translate(-6%, 7%) scale(1.12) rotate(3deg); }
+            66% { transform: translate(5%, -5%) scale(0.92) rotate(-2deg); }
+            100% { transform: translate(-8%, -3%) scale(1.08) rotate(4deg); }
+        }
+
+        @keyframes fogMove2 {
+            0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+            50% { transform: translate(7%, -8%) scale(1.15) rotate(-4deg); }
+            100% { transform: translate(-5%, 6%) scale(0.95) rotate(3deg); }
+        }
+
+        /* HEADER Y TRANSICIÓN SUAVE AL DESLIZAR */
+        header {
+            background: linear-gradient(rgba(0,0,0,0.85), rgba(8,8,8,0.95)), url('https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=1200&q=80') no-repeat center center/cover;
+            text-align: center;
+            padding: 5rem 1rem;
+            border-bottom: 3px solid var(--accent-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: padding 0.4s ease, background 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        header h1 {
+            font-size: clamp(3.2rem, 7vw, 5.5rem);
+            margin: 0;
+            color: #fff;
+            text-shadow: 0 0 30px var(--accent-color);
+            letter-spacing: 5px;
+            transition: font-size 0.4s ease, text-shadow 0.4s ease;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            color: #aaa;
+            margin-top: 0.5rem;
+            transition: opacity 0.3s ease, max-height 0.3s ease;
+            max-height: 50px;
+            opacity: 1;
+            overflow: hidden;
+        }
+
+        header.scrolled {
+            padding: 0.8rem 2rem;
+            background: rgba(10, 10, 10, 0.96);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.9);
+            text-align: left;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        header.scrolled h1 {
+            font-size: 1.8rem;
+            letter-spacing: 2px;
+            text-shadow: 0 0 12px var(--accent-color);
+        }
+
+        header.scrolled p {
+            opacity: 0;
+            max-height: 0;
+            margin: 0;
+        }
+
+        /* MENÚ DE NAVEGACIÓN */
+        nav {
+            background-color: #0d0d0d;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.2rem;
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
+            z-index: 999;
+        }
+
+        nav a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--accent-hover);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        section {
+            background-color: var(--card-bg);
+            margin-bottom: 2.5rem;
+            padding: 2.5rem;
+            border-radius: 8px;
+            border-left: 5px solid var(--accent-color);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+        }
+
+        h2 {
+            color: #fff;
+            border-bottom: 1px solid #2a2a2a;
+            padding-bottom: 0.5rem;
+            margin-top: 0;
+            font-size: 2.2rem;
+        }
+
+        h3 {
+            color: var(--highlight-color);
+            margin-top: 1.5rem;
+            font-size: 1.4rem;
+        }
+
+        p, li {
+            color: #ccc;
+        }
+
+        /* --- ESTILOS AGREGADOS: CONTROLES Y ARSENAL --- */
+        .keybinds-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .keybind-card {
+            background-color: var(--card-sub-bg);
+            border: 1px solid #2a2a2a;
+            border-radius: 8px;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .key-badge {
+            background: linear-gradient(145deg, #222, #111);
+            border: 2px solid #555;
+            border-bottom: 4px solid #333;
+            color: #ff4d4d;
+            font-family: monospace;
+            font-size: 1.1rem;
+            font-weight: bold;
+            padding: 6px 12px;
+            border-radius: 6px;
+            min-width: 45px;
+            text-align: center;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.5);
+        }
+
+        .keybind-info strong {
+            display: block;
+            color: #fff;
+            font-size: 0.95rem;
+        }
+
+        .keybind-info span {
+            font-size: 0.8rem;
+            color: #999;
+        }
+
+        .arsenal-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .weapon-card {
+            background-color: var(--card-sub-bg);
+            border: 1px solid #2d2d2d;
+            border-radius: 8px;
+            padding: 1.5rem;
+            border-top: 3px solid var(--accent-hover);
+        }
+
+        .weapon-card h3 {
+            margin-top: 0;
+            color: #fff;
+        }
+
+        /* BADGES / ETIQUETAS TÁCTICAS */
+        .badge-container {
+            display: flex;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+            margin-bottom: 0.6rem;
+        }
+
+        .badge {
+            font-size: 0.72rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-danger-extreme { background-color: #8b0000; color: #fff; }
+        .badge-danger-high { background-color: #d35400; color: #fff; }
+        .badge-danger-medium { background-color: #f39c12; color: #000; }
+        .badge-loc { background-color: #2c3e50; color: #ecf0f1; }
+
+        /* GUÍA DÍA 1 STEPS */
+        .guide-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .step-card {
+            background-color: var(--card-sub-bg);
+            border: 1px solid #282828;
+            padding: 1.5rem;
+            border-radius: 8px;
+            position: relative;
+        }
+
+        .step-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--accent-hover);
+            margin-bottom: 0.5rem;
+        }
+
+        /* TARJETAS DE ENTIDADES CON FOTO */
+        .grid-entities {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .entity-card {
+            background-color: var(--card-sub-bg);
+            border: 1px solid #2a2a2a;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .entity-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-color);
+        }
+
+        .entity-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 6px;
+            display: block;
+            margin-bottom: 0.8rem;
+            border: 1px solid #333;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .entity-card img:hover {
+            opacity: 0.85;
+        }
+
+        .entity-card h3 {
+            margin: 0.3rem 0;
+            color: var(--highlight-color);
+            font-size: 1.25rem;
+        }
+
+        .entity-card p {
+            margin: 0;
+            font-size: 0.92rem;
+            color: #bbb;
+        }
+
+        /* ESTILOS PARA LA GALERÍA DE SHADERS */
+        .shader-card {
+            background-color: var(--card-sub-bg);
+            border: 1px solid #2a2a2a;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        @media (max-width: 850px) {
+            .shader-card {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .shader-img-container {
+            display: flex;
+            gap: 10px;
+        }
+
+        .shader-img-box {
+            flex: 1;
+            position: relative;
+        }
+
+        .shader-img-box img {
+            width: 100%;
+            height: 170px;
+            object-fit: cover;
+            border-radius: 6px;
+            border: 1px solid #333;
+            cursor: pointer;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .shader-img-box img:hover {
+            transform: scale(1.02);
+            border-color: var(--accent-hover);
+        }
+
+        .shader-img-label {
+            position: absolute;
+            bottom: 8px;
+            left: 8px;
+            font-size: 0.7rem;
+            padding: 3px 7px;
+            border-radius: 4px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+            pointer-events: none;
+        }
+
+        .label-off {
+            background-color: rgba(0, 0, 0, 0.85);
+            color: #aaa;
+            border: 1px solid #444;
+        }
+
+        .label-on {
+            background-color: rgba(139, 0, 0, 0.9);
+            color: #fff;
+            border: 1px solid #ff1a1a;
+        }
+
+        .shader-info h3 {
+            margin-top: 0.5rem;
+            color: var(--highlight-color);
+        }
+
+        .shader-info p {
+            font-size: 0.95rem;
+            margin-bottom: 0;
+        }
+
+        /* CATEGORÍAS DE MODS */
+        .mod-category {
+            background-color: var(--card-sub-bg);
+            border: 1px solid #252525;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 1.5rem;
+        }
+
+        .mod-category h3 {
+            margin-top: 0;
+            border-bottom: 1px solid #333;
+            padding-bottom: 0.4rem;
+        }
+
+        .mod-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+            padding: 0;
+            list-style: none;
+            margin-top: 1rem;
+        }
+
+        .mod-item {
+            background-color: #111;
+            padding: 0.8rem 1rem;
+            border-radius: 6px;
+            border-left: 3px solid var(--accent-color);
+        }
+
+        .mod-item strong {
+            color: #fff;
+            display: block;
+            margin-bottom: 0.2rem;
+        }
+
+        .mod-item span {
+            font-size: 0.85rem;
+            color: #aaa;
+        }
+
+        /* GRID DE MECÁNICAS */
+        .mechanics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .mechanic-card {
+            background-color: var(--card-sub-bg);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid #2a2a2a;
+        }
+
+        .mechanic-card h3 {
+            margin-top: 0;
+        }
+
+        /* LIGHTBOX MODAL DE IMÁGENES */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            padding-top: 60px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.92);
+            backdrop-filter: blur(8px);
+        }
+
+        .modal-content {
+            margin: auto;
+            display: block;
+            max-width: 80%;
+            max-height: 80vh;
+            border-radius: 8px;
+            border: 2px solid var(--accent-color);
+            box-shadow: 0 0 30px rgba(255,0,0,0.5);
+        }
+
+        .modal-caption {
+            margin: auto;
+            display: block;
+            width: 80%;
+            text-align: center;
+            color: #ccc;
+            padding: 15px 0;
+            font-size: 1.2rem;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 35px;
+            color: #fff;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .close-modal:hover { color: var(--accent-hover); }
+
+        /* --- ESTILOS AGREGADOS: EASTER EGG Y MODO PÁNICO (CON VIDEO) --- */
+        #easterEggBtn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1001;
+            width: 40px;
+            height: 40px;
+            background: radial-gradient(circle, #ff1a1a 0%, #8b0000 70%, #000 100%);
+            border: 2px solid #ff4d4d;
+            border-radius: 50%;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.8);
+            cursor: pointer;
+            animation: pulseEgg 2s infinite;
+        }
+
+        @keyframes pulseEgg {
+            0% { transform: scale(1); box-shadow: 0 0 10px rgba(255,0,0,0.5); }
+            50% { transform: scale(1.1); box-shadow: 0 0 25px rgba(255,0,0,1); }
+            100% { transform: scale(1); box-shadow: 0 0 10px rgba(255,0,0,0.5); }
+        }
+
+        .vhs-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 9999;
+            background-color: rgba(0,0,0,0.95);
+            cursor: pointer;
+        }
+
+        .vhs-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: #ff1a1a;
+            font-family: monospace;
+            text-shadow: 0 0 20px #ff0000;
+            width: 90%;
+            max-width: 700px;
+        }
+
+        .vhs-content h2 {
+            border: none;
+            font-size: clamp(1.8rem, 4vw, 3rem);
+            margin-bottom: 5px;
+            animation: glitch 0.2s infinite alternate;
+        }
+
+        .vhs-content p {
+            color: #ff4d4d;
+            font-size: 1.1rem;
+            margin: 5px 0 15px 0;
+        }
+
+        .vhs-video-container {
+            width: 100%;
+            margin: 10px auto;
+            border: 2px solid var(--accent-hover);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.6);
+            background: #000;
+        }
+
+        .vhs-video-container video {
+            width: 100%;
+            max-height: 50vh;
+            display: block;
+            object-fit: cover;
+        }
+
+        @keyframes glitch { 
+            0% { transform: translate(2px, -2px); opacity: 1; } 
+            100% { transform: translate(-2px, 2px); opacity: 0.8; } 
+        }
+
+        /* BOTONES FLOTANTES */
+        .floating-btn {
+            background-color: #111;
+            color: #fff;
+            border: 2px solid var(--accent-color);
+            padding: 0.8rem 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.8);
+            transition: transform 0.2s, background-color 0.2s, border-color 0.2s;
+        }
+
+        .floating-btn:hover {
+            transform: scale(1.08);
+            border-color: var(--accent-hover);
+            background-color: #1a0000;
+        }
+
+        #scrollTopBtn {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            z-index: 999;
+            display: none;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2.5rem;
+            background-color: #050505;
+            color: #666;
+            border-top: 1px solid var(--border-color);
+            font-size: 0.9rem;
+            position: relative;
+            z-index: 2;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- CAPAS DE NIEBLA DINÁMICA DE FONDO -->
+    <div class="fog-container">
+        <div class="fog-layer fog-1"></div>
+        <div class="fog-layer fog-2"></div>
+    </div>
+    
+    <!-- EASTER EGG BOTÓN -->
+    <div id="easterEggBtn" onclick="togglePanicMode()" title="No tocar"></div>
+
+    <!-- OVERLAY VHS MODO PÁNICO CON VIDEO Y PALABRAS -->
+    <div id="vhsOverlay" class="vhs-overlay" onclick="togglePanicMode()">
+        <div class="vhs-content" onclick="event.stopPropagation()">
+            <h2>⚠️ SISTEMA COMPROMETIDO ⚠️</h2>
+            <p>LA ENTIDAD TE ESTÁ OBSERVANDO</p>
+            
+            <div class="vhs-video-container">
+                <!-- Video integrado con sus palabras y controles automáticos -->
+                <video id="panicVideo" src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" loop playsinline controls></video>
+            </div>
+
+            <p style="color:#fff; font-size: 0.9rem; margin-top:15px; cursor:pointer;" onclick="togglePanicMode()">[ Clic aquí o en cualquier parte para salir ]</p>
+        </div>
+    </div>
+
+    <!-- BOTONES Y SELECTOR FLOTANTES DE AUDIO -->
+    <button id="scrollTopBtn" class="floating-btn" onclick="scrollToTop()">⬆ Arriba</button>
+    
+    <div id="audioControls" style="position: fixed; bottom: 25px; left: 25px; z-index: 999; display: flex; gap: 8px; align-items: center;">
+        <select id="soundSelect" style="background: #111; color: #e0e0e0; border: 1px solid #8b0000; padding: 0.8rem; border-radius: 25px; font-weight: bold; cursor: pointer; outline: none;">
+            <option value="drone">1. Zumbido Profundo</option>
+            <option value="wind">2. Viento Desolado</option>
+            <option value="pulse">3. Latido Tétrico</option>
+        </select>
+        <button id="audioToggleBtn" class="floating-btn" onclick="toggleHorrorAudio()">🔊 Probar Ambiente</button>
+    </div>
+
+    <header id="inicio">
+        <h1>HORROR K</h1>
+        <p>Wiki Oficial, Bestiario, Guía de Supervivencia y Mods (Forge 1.19.2)</p>
+    </header>
+
+    <nav>
+        <a href="#inicio">🏠 Inicio</a>
+        <a href="#que-es">📖 ¿Qué es?</a>
+        <a href="#mecanicas">⚙️ Mecánicas</a>
+        <a href="#controles">⌨️ Controles</a>
+        <a href="#arsenal">🔫 Arsenal</a>
+        <a href="#guia-dia1">📜 Guía Día 1</a>
+        <a href="#entidades">👹 Bestiario</a>
+        <a href="#shaders">✨ Shaders</a>
+        <a href="#mods">📦 Todos los Mods</a>
+        <a href="#optimizacion">🚀 Rendimiento</a>
+        <a href="#requisitos">💻 Requisitos</a>
+        <a href="#agradecimientos">🙏 Créditos</a>
+        <a href="#faq">❓ FAQ</a>
+        <a href="#descarga">📥 Descarga</a>
+    </nav>
+
+    <div class="container">
+        
+        <!-- SECCIÓN: QUÉ ES -->
+        <section id="que-es">
+            <h2>📖 ¿Qué es Horror K?</h2>
+            <p><strong>Horror K</strong> es un modpack hardcore de supervivencia y terror psicológico diseñado sobre Minecraft Forge 1.19.2. El proyecto transforma por completo la experiencia de juego tradicional, convirtiendo el mundo en un entorno claustrofóbico, peligroso e impredecible.</p>
+            <p>A diferencia de los modpacks convencionales, Horror K combina múltiples entidades acechadoras (Dwellers), mecánicas de cordura, efectos visuales perturbadores, sonido posicional 3D y armamento militar moderno para darte una oportunidad de defensa.</p>
+        </section>
+
+        <!-- SECCIÓN: MECÁNICAS DE JUEGO -->
+        <section id="mecanicas">
+            <h2>⚡ Mecánicas Principales de Juego</h2>
+            <p>Supervivencia táctica donde cada decisión puede ser la última:</p>
+            
+            <div class="mechanics-grid">
+                <div class="mechanic-card">
+                    <h3>🧠 Sistema de Cordura (Sanity)</h3>
+                    <p>Permanecer en la oscuridad, presenciar criaturas o escuchar ruidos extraños reducirá tu cordura. Al bajar demasiado, sufrirás alucinaciones visuales y auditivas que te confundirán.</p>
+                </div>
+                <div class="mechanic-card">
+                    <h3>🔫 Armamento Táctico (TACZ)</h3>
+                    <p>Accede a un arsenal militar detallado mediante <em>Timeless and Classics Zero</em>. Personaliza fusiles, pistolas y escopetas con miras y accesorios para repeler los ataques de alto riesgo.</p>
+                </div>
+                <div class="mechanic-card">
+                    <h3>🤸 Movimiento Avanzado (ParCool)</h3>
+                    <p>Escapa de las garras de las criaturas utilizando maniobras de parkour: deslizamientos, volteretas, escalada rápida de muros y saltos de evasión.</p>
+                </div>
+                <div class="mechanic-card">
+                    <h3>🎙️ Chat de Voz por Proximidad</h3>
+                    <p>Integración completa con <em>Simple Voice Chat</em>. Comunícate en tiempo real con otros jugadores considerando la distancia y la acústica del entorno.</p>
+                </div>
+                <div class="mechanic-card">
+                    <h3>🏰 Fortificación & Seguridad</h3>
+                    <p>Construye refugios seguros con <em>SecurityCraft</em>: puertas reforzadas, escáneres y torres de defensa para mantener a raya las invasiones nocturnas.</p>
+                </div>
+                <div class="mechanic-card">
+                    <h3>🎒 Almacenamiento Táctico</h3>
+                    <p>Utiliza <em>Sophisticated Backpacks</em> para transportar munición, suministros médicos y herramientas esenciales sin perder movilidad.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN: CONTROLES RÁPIDOS -->
+        <section id="controles">
+            <h2>⌨️ Guía de Controles Rápida</h2>
+            <p>Memoriza estas teclas clave para reaccionar al instante ante el ataque de un Dweller:</p>
+            
+            <div class="keybinds-grid">
+                <div class="keybind-card">
+                    <div class="key-badge">V</div>
+                    <div class="keybind-info">
+                        <strong>Chat de Voz</strong>
+                        <span>Simple Voice Chat</span>
+                    </div>
+                </div>
+                <div class="keybind-card">
+                    <div class="key-badge">B</div>
+                    <div class="keybind-info">
+                        <strong>Mochila Táctica</strong>
+                        <span>Sophisticated Backpacks</span>
+                    </div>
+                </div>
+                <div class="keybind-card">
+                    <div class="key-badge">R</div>
+                    <div class="keybind-info">
+                        <strong>Recargar Arma</strong>
+                        <span>TACZ Armamento</span>
+                    </div>
+                </div>
+                <div class="keybind-card">
+                    <div class="key-badge">Shift + Spc</div>
+                    <div class="keybind-info">
+                        <strong>Deslizamiento</strong>
+                        <span>ParCool Parkour</span>
+                    </div>
+                </div>
+                <div class="keybind-card">
+                    <div class="key-badge">C</div>
+                    <div class="keybind-info">
+                        <strong>Inspeccionar Arma</strong>
+                        <span>Animación TACZ</span>
+                    </div>
+                </div>
+                <div class="keybind-card">
+                    <div class="key-badge">Z</div>
+                    <div class="keybind-info">
+                        <strong>Sube-Miras / Zoom</strong>
+                        <span>Apuntado táctico</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN: ARSENAL TÁCTICO -->
+        <section id="arsenal">
+            <h2>🔫 Arsenal Táctico Recomendado (TACZ)</h2>
+            <p>Guía de armamento militar esencial para neutralizar a las amenazas más agresivas del modpack:</p>
+            
+            <div class="arsenal-grid">
+                <div class="weapon-card">
+                    <h3>Escopetas de Gran Calibre</h3>
+                    <p><strong>Ideal contra:</strong> <em>Cave Dweller</em> y <em>The Rake</em>.</p>
+                    <p>Entrega un enorme poder de parada a corta distancia. Un disparo certero en la cabeza frena embestidas directas dentro de cavernas estrechas.</p>
+                </div>
+                <div class="weapon-card">
+                    <h3>Rifles de Asalto Automáticos</h3>
+                    <p><strong>Ideal contra:</strong> Hordas de <em>Born in Chaos</em> y <em>Goatman</em>.</p>
+                    <p>Excelente cadencia de tiro y precisión a media distancia. Es la mejor opción para patrullar de noche y limpiar zonas abiertas.</p>
+                </div>
+                <div class="weapon-card">
+                    <h3>Rifles de Francotirador</h3>
+                    <p><strong>Ideal contra:</strong> <em>The Man From The Fog</em> y <em>The One Who Watches</em>.</p>
+                    <p>Te permite eliminar o ahuyentar a las entidades que te observan fijamente a larga distancia antes de que inicien la cacería.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN: GUÍA DE SUPERVIVENCIA DÍA 1 -->
+        <section id="guia-dia1">
+            <h2>📜 Guía Táctica: Sobreviviendo el Día 1</h2>
+            <p>Sigue estos pasos esenciales durante tus primeros minutos para garantizar tu supervivencia:</p>
+            
+            <div class="guide-steps">
+                <div class="step-card">
+                    <div class="step-number">01</div>
+                    <h3>Luz y Refugio Inmediato</h3>
+                    <p>No explores de noche sin antorchas. La oscuridad destruye tu nivel de cordura rápidamente y atrae a <em>The Midnight Lurker</em>. Cierra la entrada de tu refugio con bloques sólidos.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">02</div>
+                    <h3>Craftea tu Mochila y Armas</h3>
+                    <p>Consigue cuero y hierro rápidamente para armar tu primera mochila de <em>Sophisticated Backpacks</em>. Busca pólvora para fabricar munición básica del mod <em>TACZ</em>.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">03</div>
+                    <h3>Atento a la Niebla</h3>
+                    <p>Si la niebla se vuelve densa de repente, <strong>no corras a ciegas</strong>. <em>The Man From The Fog</em> suele rondar en estas condiciones. Quédate cerca de una pared y recarga tu arma.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN: BESTIARIO COMPLETO DE ENTIDADES -->
+        <section id="entidades">
+            <h2>👹 Bestiario de Entidades y Dwellers</h2>
+            <p>Informe documentado de las abominaciones que acechan en el modpack (Haz clic en una imagen para agrandarla):</p>
+            
+            <div class="grid-entities" id="entityGrid">
+                
+                <div class="entity-card">
+                    <img src="imagenes/herobrine.jpg" alt="Herobrine" onclick="openModal(this.src, 'Herobrine (End of Herobrine)')" onerror="this.src='https://via.placeholder.com/400x250/1a1a1a/ff4d4d?text=Herobrine'">
+                    <div class="badge-container">
+                        <span class="badge badge-danger-extreme">Amenaza: Extrema</span>
+                        <span class="badge badge-loc">Superficie / Global</span>
+                    </div>
+                    <h3>Herobrine (End of Herobrine)</h3>
+                    <p>La manifestación espectral definitiva. Aparece sutilmente a lo lejos, manipula las antorchas y altera la estructura del mundo.</p>
+                </div>
+
+                <div class="entity-card">
+                    <img src="imagenes/fog_dweller.jpg" alt="The Man From The Fog" onclick="openModal(this.src, 'The Man From The Fog')" onerror="this.src='https://via.placeholder.com/400x250/1a1a1a/ff4d4d?text=Man+From+The+Fog'">
+                    <div class="badge-container">
+                        <span class="badge badge-danger-extreme">Amenaza: Extrema</span>
+                        <span class="badge badge-loc">Zonas con Niebla</span>
+                    </div>
+                    <h3>The Man From The Fog</h3>
+                    <p>Entidad esbelta y tenebrosa que se manifiesta únicamente en medio de la niebla. Te vigila antes de iniciar una embestida letal.</p>
+                </div>
+
+                <div class="entity-card">
+                    <img src="imagenes/cave_dweller.jpg" alt="Cave Dweller Reimagined" onclick="openModal(this.src, 'Cave Dweller Reimagined')" onerror="this.src='https://via.placeholder.com/400x250/1a1a1a/ff4d4d?text=Cave+Dweller'">
+                    <div class="badge-container">
+                        <span class="badge badge-danger-high">Amenaza: Alta</span>
+                        <span class="badge badge-loc">Subterráneo / Cuevas</span>
+                    </div>
+                    <h3>Cave Dweller Reimagined</h3>
+                    <p>El cazador subterráneo por excelencia. Sus chillidos metálicos retumban en las cavernas antes de arrastrarse hacia ti a gran velocidad.</p>
+                </div>
+
+                <div class="entity-card">
+                    <img src="imagenes/midnight_lurker.jpg" alt="The Midnight Lurker" onclick="openModal(this.src, 'The Midnight Lurker')" onerror="this.src='https://via.placeholder.com/400x250/1a1a1a/ff4d4d?text=Midnight+Lurker'">
+                    <div class="badge-container">
+                        <span class="badge badge-danger-high">Amenaza: Alta</span>
+                        <span class="badge badge-loc">Noche / Bosques</span>
+                    </div>
+                    <h3>The Midnight Lurker</h3>
+                    <p>Una silueta sombría que se esconde tras los árboles y edificios. Te acecha durante días para estudiar tus rutinas antes de atacar.</p>
+                </div>
+
+                <div class="entity-card">
+                    <img src="imagenes/goatman.jpg" alt="The Newest Goatman" onclick="openModal(this.src, 'The Newest Goatman')" onerror="this.src='https://via.placeholder.com/400x250/1a1a1a/ff4d4d?text=Goatman'">
+                    <div class="badge-container">
+                        <span class="badge badge-danger-medium">Amenaza: Media-Alta</span>
+                        <span class="badge badge-loc">Bosques Densos</span>
+                    </div>
+                    <h3>The Newest Goatman</h3>
+                    <p>Criatura aborrecible que imita sonidos y pasos para atraer al jugador a zonas boscosas y oscuras.</p>
+                </div>
+
+                <div class="entity-card">
+                    <img src="imagenes/rake.jpg" alt="The Rake Updated" onclick="openModal(this.src, 'The Rake Updated')" onerror="this.src='https://via.placeholder.com/400x250/1a1a1a/ff4d4d?text=The+Rake'">
+                    <div class="badge-container">
+                        <span class="badge badge-danger-high">Amenaza: Alta</span>
+                        <span class="badge badge-loc">Interiores / Oscuridad</span>
+                    </div>
+                    <h3>The Rake (Updated)</h3>
+                    <p>Bestia feroz dotada de garras enormes. Ataca sorpresivamente en espacios cerrados e interiores.</p>
+                </div>
+
+                <div class="entity-card">
+                    <img src="imagenes/skinwalker.jpg" alt="Skinwalker Overhaul" onclick="openModal(this.src, 'Skinwalker Overhaul')" onerror="this.src='https://via.placeholder.com/400x250/1a1a1a/ff4d4d?text=Skinwalker'">
+                    <div class="badge-container">
+                        <span class="badge badge-danger-high">Amenaza: Engañosa</span>
+                        <span class="badge badge-loc">Superficie / Fauna</span>
+                    </div>
+                    <h3>Skinwalker Overhaul</h3>
+                    <p>Capaz de camuflarse adquiriendo la forma de animales pacíficos o criaturas del entorno para engañarte.</p>
+                </div>
+
+                <div class="entity-card">
+                    <img src="imagenes/cartoon_dweller.jpg" alt="Cartoon Dweller" onclick="openModal(this.src, 'Cartoon Dweller')" onerror="this.src='https://via.placeholder.com/400x250/1a1a1a/ff4d4d?text=Cartoon+Dweller'">
+                    <div class="badge-container">
+                        <span class="badge badge-danger-medium">Amenaza: Variable</span>
+                        <span class="badge badge-loc">Estructuras Abandonadas</span>
+                    </div>
+                    <h3>Cartoon Dweller</h3>
+                    <p>Una aberración visual con estética de dibujo distorsionado cuyos movimientos impredecibles desafían la lógica.</p>
+                </div>
+
+                <div class="entity-card">
+                    <img src="imagenes/born_in_chaos.jpg" alt="Born in Chaos Creatures" onclick="openModal(this.src, 'Entidades Born in Chaos')" onerror="this.src='https://via.placeholder.com/400x250/1a1a1a/ff4d4d?text=Born+In+Chaos'">
+                    <div class="badge-container">
+                        <span class="badge badge-danger-high">Amenaza: Múltiple</span>
+                        <span class="badge badge-loc">Mundo General</span>
+                    </div>
+                    <h3>Entidades Born in Chaos</h3>
+                    <p>Un ejército de espectros, esqueletos corruptos y abominaciones nocturnas que elevan la dificultad global del juego.</p>
+                </div>
+
+                <div class="entity-card">
+                    <img src="imagenes/one_who_watches.jpg" alt="The One Who Watches" onclick="openModal(this.src, 'The One Who Watches')" onerror="this.src='https://via.placeholder.com/400x250/1a1a1a/ff4d4d?text=The+One+Who+Watches'">
+                    <div class="badge-container">
+                        <span class="badge badge-danger-medium">Amenaza: Psicológica</span>
+                        <span class="badge badge-loc">Zonas Elevadas</span>
+                    </div>
+                    <h3>The One Who Watches</h3>
+                    <p>Presencia estática y perturbadora que te observa desde las alturas. Su proximidad altera el audio y causa paranoia.</p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SECCIÓN: GALERÍA Y COMPARATIVA DE SHADERS -->
+        <section id="shaders">
+            <h2>✨ Galería Comparativa de Shaders</h2>
+            <p>Mira la diferencia visual entre el juego base y la experiencia atmosférica mejorada con los shaders recomendados para <strong>Horror K</strong>. Haz clic en las imágenes para verlas en grande.</p>
+
+            <!-- SHADER 1: BSL SHADERS -->
+            <div class="shader-card">
+                <div class="shader-img-container">
+                    <div class="shader-img-box">
+                        <img src="imagenes/bsl_off.jpg" alt="Juego Sin Shader" onclick="openModal(this.src, 'BSL Shaders - Juego Base')" onerror="this.src='https://via.placeholder.com/400x250/111/fff?text=Sin+Shader'">
+                        <span class="shader-img-label label-off">SIN SHADER</span>
+                    </div>
+                    <div class="shader-img-box">
+                        <img src="imagenes/bsl_on.jpg" alt="BSL Shaders Activado" onclick="openModal(this.src, 'BSL Shaders - Activado')" onerror="this.src='https://via.placeholder.com/400x250/8b0000/fff?text=BSL+Shader+ON'">
+                        <span class="shader-img-label label-on">CON BSL</span>
+                    </div>
+                </div>
+                <div class="shader-info">
+                    <div class="badge-container">
+                        <span class="badge badge-loc">Rendimiento: Balanceado</span>
+                        <span class="badge badge-danger-medium">Estilo: Cinematográfico</span>
+                    </div>
+                    <h3>BSL Shaders</h3>
+                    <p>Proporciona una iluminación cálida, sombras suaves, agua realista y un tono niebla muy natural sin sacrificar demasiados fotogramas por segundo. Ideal para jugar de noche con buena visibilidad.</p>
+                </div>
+            </div>
+
+            <!-- SHADER 2: SANITY SHADER -->
+            <div class="shader-card">
+                <div class="shader-img-container">
+                    <div class="shader-img-box">
+                        <img src="imagenes/sanity_off.jpg" alt="Juego Sin Shader" onclick="openModal(this.src, 'Sanity Shader - Juego Base')" onerror="this.src='https://via.placeholder.com/400x250/111/fff?text=Sin+Shader'">
+                        <span class="shader-img-label label-off">SIN SHADER</span>
+                    </div>
+                    <div class="shader-img-box">
+                        <img src="imagenes/sanity_on.jpg" alt="Sanity Shader Activado" onclick="openModal(this.src, 'Sanity Shader - Terror Psicológico')" onerror="this.src='https://via.placeholder.com/400x250/8b0000/fff?text=Sanity+Shader+ON'">
+                        <span class="shader-img-label label-on">CON SANITY</span>
+                    </div>
+                </div>
+                <div class="shader-info">
+                    <div class="badge-container">
+                        <span class="badge badge-danger-extreme">Rendimiento: Optimizado</span>
+                        <span class="badge badge-danger-high">Estilo: Terror / Oscuridad</span>
+                    </div>
+                    <h3>Sanity Shader</h3>
+                    <p>Diseñado específicamente para modpacks de terror. Aumenta el contraste, oscurece las sombras y añade efectos de viñeta y distorsión que incrementan la sensación de claustrofobia al explorar cuevas.</p>
+                </div>
+            </div>
+
+            <!-- SHADER 3: SKYGLEAM SHADER -->
+            <div class="shader-card">
+                <div class="shader-img-container">
+                    <div class="shader-img-box">
+                        <img src="imagenes/skygleam_off.jpg" alt="Juego Sin Shader" onclick="openModal(this.src, 'Skygleam - Juego Base')" onerror="this.src='https://via.placeholder.com/400x250/111/fff?text=Sin+Shader'">
+                        <span class="shader-img-label label-off">SIN SHADER</span>
+                    </div>
+                    <div class="shader-img-box">
+                        <img src="imagenes/skygleam_on.jpg" alt="Skygleam Shader Activado" onclick="openModal(this.src, 'Skygleam Shader - Cielos Dramáticos')" onerror="this.src='https://via.placeholder.com/400x250/8b0000/fff?text=Skygleam+ON'">
+                        <span class="shader-img-label label-on">CON SKYGLEAM</span>
+                    </div>
+                </div>
+                <div class="shader-info">
+                    <div class="badge-container">
+                        <span class="badge badge-loc">Rendimiento: Ligero</span>
+                        <span class="badge badge-danger-medium">Estilo: Cielos & Atmósfera</span>
+                    </div>
+                    <h3>Skygleam Shader</h3>
+                    <p>Destaca por sus cielos nocturnos detallados, nubes volumétricas y una iluminación tenue muy realista. Es la opción perfecta si buscas una estética tétrica pero ligera para la tarjeta gráfica.</p>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- SECCIÓN: LISTA COMPLETA DE MODS -->
+        <section id="mods">
+            <h2>📦 Lista Completa de Mods Incluidos (Forge 1.19.2)</h2>
+            <p>Todos los mods integrados en la carpeta oficial de Horror K:</p>
+
+            <div class="mod-category">
+                <h3>👹 Terror, Dwellers y Criaturas</h3>
+                <div class="mod-list">
+                    <div class="mod-item"><strong>Cave Dweller Reimagined</strong><span>Revisión completa de la criatura subterránea.</span></div>
+                    <div class="mod-item"><strong>The Man From The Fog & From The Fog</strong><span>Aparición de la figura brumosa y eventos de niebla.</span></div>
+                    <div class="mod-item"><strong>The Midnight Lurker</strong><span>Acechador nocturno con IA avanzada.</span></div>
+                    <div class="mod-item"><strong>The Newest Goatman</strong><span>Encuentros con el hombre cabra en los bosques.</span></div>
+                    <div class="mod-item"><strong>THE RAKE UPDATED</strong><span>Atacante veloz de garras largas.</span></div>
+                    <div class="mod-item"><strong>End of Herobrine</strong><span>Mecánicas y eventos de la leyenda clásica.</span></div>
+                    <div class="mod-item"><strong>Skinwalker Overhaul</strong><span>Criaturas capaces de imitar la fauna.</span></div>
+                    <div class="mod-item"><strong>Born in Chaos</strong><span>Decenas de nuevos monstruos y estructuras horribles.</span></div>
+                    <div class="mod-item"><strong>Cartoon Dweller & Santa Dweller</strong><span>Variantes únicas de Dwellers de terror.</span></div>
+                    <div class="mod-item"><strong>Eyes In The Darkness & Beware</strong><span>Ojos que observan en la oscuridad y sustos sorpresivos.</span></div>
+                    <div class="mod-item"><strong>The One Who Watches</strong><span>Vigilante silencioso en zonas elevadas.</span></div>
+                </div>
+            </div>
+
+            <div class="mod-category">
+                <h3>🔊 Inmersión, Atmósfera y Audio 3D</h3>
+                <div class="mod-list">
+                    <div class="mod-item"><strong>AmbientSounds & Cave-Horror-Sounds</strong><span>Ambiente sonoro inmersivo y ecos perturbadores.</span></div>
+                    <div class="mod-item"><strong>Presence Footsteps & ExtraSounds</strong><span>Pasos detallados según la superficie y efectos de interfaz.</span></div>
+                    <div class="mod-item"><strong>Enhanced Visuals</strong><span>Efectos de sangre, distorsión y mareo en pantalla.</span></div>
+                    <div class="mod-item"><strong>BetterFog & Lucent</strong><span>Niebla densa realista e iluminación dinámica.</span></div>
+                    <div class="mod-item"><strong>Sanity Dim (Sanity System)</strong><span>Medidor y dimensión de cordura.</span></div>
+                    <div class="mod-item"><strong>Horror Elements Mod</strong><span>Estructuras y decoración temática macabra.</span></div>
+                </div>
+            </div>
+
+            <div class="mod-category">
+                <h3>🔫 Combate, Equipo y Supervivencia</h3>
+                <div class="mod-list">
+                    <div class="mod-item"><strong>TACZ (Timeless & Classics Zero)</strong><span>Sistema completo de armas de fuego y accesorios.</span></div>
+                    <div class="mod-item"><strong>ParCool</strong><span>Mecánicas de parkour, volteretas y deslizamientos.</span></div>
+                    <div class="mod-item"><strong>SecurityCraft</strong><span>Cámaras, torretas y sistemas de seguridad.</span></div>
+                    <div class="mod-item"><strong>Sophisticated Backpacks & Core</strong><span>Mochilas personalizables y de gran capacidad.</span></div>
+                    <div class="mod-item"><strong>Simple Voice Chat</strong><span>Comunicación por voz espacial dentro del juego.</span></div>
+                    <div class="mod-item"><strong>Corpse & Realistic Item Drops</strong><span>Cuerpos al morir para recuperar items y físicas de objetos.</span></div>
+                    <div class="mod-item"><strong>TreeChop & Torchmaster</strong><span>Tala realista de árboles y antorchas protectoras.</span></div>
+                    <div class="mod-item"><strong>OnlyHammers & Creation Reborn</strong><span>Herramientas de minería masiva y expansión.</span></div>
+                </div>
+            </div>
+
+            <div class="mod-category">
+                <h3>🚀 Rendimiento, Gráficos y Optimización</h3>
+                <div class="mod-list">
+                    <div class="mod-item"><strong>Embeddium & Textrues Options</strong><span>Rendimiento gráfico extremo basado en Sodium.</span></div>
+                    <div class="mod-item"><strong>Oculus</strong><span>Soporte para Shaders de alto rendimiento.</span></div>
+                    <div class="mod-item"><strong>Entity Culling & ImmediatelyFast</strong><span>Renderizado eficiente de entidades y bloques.</span></div>
+                    <div class="mod-item"><strong>FerriteCore & Memory Leak Fix</strong><span>Reducción drástica del uso de memoria RAM.</span></div>
+                    <div class="mod-item"><strong>Dynamic FPS & FastQuit</strong><span>Ahorro de recursos al minimizar y salidas rápidas.</span></div>
+                    <div class="mod-item"><strong>Spark & GPU Mem Leak Fix</strong><span>Monitoreo del sistema y estabilidad gráfica.</span></div>
+                    <div class="mod-item"><strong>SmoothBoot & KryptonReforged</strong><span>Cargas más rápidas e inicio optimizado.</span></div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- SECCIÓN: OPTIMIZACIÓN Y RENDIMIENTO -->
+        <section id="optimizacion">
+            <h2>🚀 Optimización y Rendimiento Excepcional</h2>
+            <p>A pesar de contar con más de 70 mods activos y efectos visuales avanzados, <strong>Horror K</strong> está altamente optimizado gracias a la combinación de <strong>Embeddium</strong>, <strong>FerriteCore</strong>, <strong>Entity Culling</strong> e <strong>ImmediatelyFast</strong>.</p>
+        </section>
+
+        <!-- SECCIÓN: REQUISITOS DEL SISTEMA -->
+        <section id="requisitos">
+            <h2>💻 Requisitos del Sistema</h2>
+            <ul>
+                <li><strong>Versión de Minecraft:</strong> 1.19.2 (Forge)</li>
+                <li><strong>RAM Recomendada:</strong> 4 GB mínimo (6 GB recomendados)</li>
+                <li><strong>Procesador:</strong> Intel Core i5 / AMD Ryzen 5 o superior</li>
+                <li><strong>Tarjeta Gráfica:</strong> NVIDIA GeForce GTX / AMD Radeon equivalente</li>
+            </ul>
+        </section>
+
+        <!-- SECCIÓN: AGRADECIMIENTOS A LOS CREADORES DE MODS -->
+        <section id="agradecimientos">
+            <h2>🙏 Agradecimientos Especiales a los Creadores</h2>
+            <p>Un reconocimiento inmenso a todos los desarrolladores y creadores de la comunidad de Minecraft Modding por desarrollar los proyectos que hicieron posible la experiencia de <strong>Horror K</strong>:</p>
+            <ul style="line-height: 1.8;">
+                <li><strong>TACZ Team:</strong> Por el impresionante sistema de armas tácticas y animaciones de alta calidad.</li>
+                <li><strong>Garris0n, M3lle & Desarrolladores de Dwellers:</strong> Por reinventar el género de terror en Minecraft con inteligencias artificiales de cazador impredecibles.</li>
+                <li><strong>SpongePowered & Embeddium/Sodium Team:</strong> Por las herramientas de rendimiento y optimización gráfica.</li>
+                <li><strong>Gilded Games, Henkelmax & Creadores de Utilidades:</strong> Por el chat de voz por proximidad, sistemas de mochilas y mecánicas de parkour.</li>
+                <li><strong>Comunidad Modder Forge 1.19.2:</strong> A todos los programadores independientes que crean efectos de sonido, shaders y decoración atmosférica.</li>
+            </ul>
+        </section>
+
+        <!-- SECCIÓN: PREGUNTAS FRECUENTES -->
+        <section id="faq">
+            <h2>❓ Preguntas Frecuentes (FAQ)</h2>
+            <p><strong>¿Cómo activo el Chat de Voz en multijugador?</strong><br>Asegúrate de configurar tu micrófono en las opciones presionando la tecla <code>V</code> dentro del juego.</p>
+            <p><strong>¿Puedo agregar Shaders al modpack?</strong><br>¡Sí! El modpack incluye <em>Oculus</em>, por lo que puedes colocar tus Shaders favoritos directamente en la carpeta <code>shaderpacks</code>.</p>
+        </section>
+
+        <!-- SECCIÓN: DESCARGA -->
+        <section id="descarga">
+            <h2>📥 Descarga e Instalación</h2>
+            <p><strong>Horror K v1.0.0</strong> se encuentra actualmente subido y en proceso de revisión oficial en CurseForge. Pronto estará disponible el botón de instalación en un solo clic.</p>
+        </section>
+
+    </div>
+
+    <!-- MODAL PARA LIGHTBOX -->
+    <div id="imageModal" class="modal">
+        <span class="close-modal" onclick="closeModal()">&times;</span>
+        <img class="modal-content" id="modalImg">
+        <div class="modal-caption" id="modalCaption"></div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Horror K Modpack. Creado por Keylefs.</p>
+    </footer>
+
+    <!-- JAVASCRIPT CON TODA LA LÓGICA INTERACTIVA -->
+    <script>
+        // 1. TRANSICIÓN HEADER Y BOTÓN VOLVER ARRIBA
+        let isScrolled = false;
+        const header = document.querySelector('header');
+        const scrollTopBtn = document.getElementById('scrollTopBtn');
+
+        window.addEventListener('scroll', function() {
+            const scrollY = window.scrollY;
+
+            if (scrollY > 140 && !isScrolled) {
+                header.classList.add('scrolled');
+                isScrolled = true;
+            } else if (scrollY < 30 && isScrolled) {
+                header.classList.remove('scrolled');
+                isScrolled = false;
+            }
+
+            if (scrollY > 400) {
+                scrollTopBtn.style.display = 'block';
+            } else {
+                scrollTopBtn.style.display = 'none';
+            }
+        });
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // 2. LIGHTBOX MODAL
+        function openModal(src, title) {
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImg');
+            const captionText = document.getElementById('modalCaption');
+            modal.style.display = "block";
+            modalImg.src = src;
+            captionText.innerHTML = title;
+        }
+
+        function closeModal() {
+            document.getElementById('imageModal').style.display = "none";
+        }
+
+        // 3. LÓGICA DEL EASTER EGG (MODO PÁNICO CON VIDEO)
+        function togglePanicMode() {
+            const overlay = document.getElementById('vhsOverlay');
+            const video = document.getElementById('panicVideo');
+            
+            if (overlay.style.display === 'block') {
+                overlay.style.display = 'none';
+                document.body.style.overflow = 'auto'; // Devuelve el scroll normal
+                if (video) {
+                    video.pause(); // Pausa el video al cerrar
+                }
+            } else {
+                overlay.style.display = 'block';
+                document.body.style.overflow = 'hidden'; // Bloquea el fondo
+                if (video) {
+                    video.currentTime = 0;
+                    video.play().catch(e => console.log("Reproducción automática bloqueada por navegador:", e));
+                }
+            }
+        }
+
+        // 4. SINTETIZADOR DE AUDIO (3 OPCIONES SOMBRÍAS)
+        let audioCtx = null;
+        let activeSound = null;
+        let isPlaying = false;
+
+        function initAudioContext() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+        }
+
+        function stopCurrentSound() {
+            if (activeSound && activeSound.stop) {
+                activeSound.stop();
+                activeSound = null;
+            }
+        }
+
+        // Opción 1: Zumbido Profundo (Sub Drone)
+        function createDroneSound(ctx) {
+            const osc1 = ctx.createOscillator();
+            const osc2 = ctx.createOscillator();
+            const filter = ctx.createBiquadFilter();
+            const gain = ctx.createGain();
+
+            osc1.type = 'sine';
+            osc1.frequency.value = 48;
+            osc2.type = 'sawtooth';
+            osc2.frequency.value = 48.6;
+
+            filter.type = 'lowpass';
+            filter.frequency.value = 100;
+
+            gain.gain.setValueAtTime(0.12, ctx.currentTime);
+
+            osc1.connect(filter);
+            osc2.connect(filter);
+            filter.connect(gain);
+            gain.connect(ctx.destination);
+
+            osc1.start();
+            osc2.start();
+
+            return {
+                stop: () => {
+                    gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.5);
+                    setTimeout(() => { osc1.stop(); osc2.stop(); }, 500);
+                }
+            };
+        }
+
+        // Opción 2: Viento Desolado (Eerie Wind)
+        function createWindSound(ctx) {
+            const bufferSize = ctx.sampleRate * 2;
+            const noiseBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+            const output = noiseBuffer.getChannelData(0);
+            for (let i = 0; i < bufferSize; i++) {
+                output[i] = Math.random() * 2 - 1;
+            }
+
+            const whiteNoise = ctx.createBufferSource();
+            whiteNoise.buffer = noiseBuffer;
+            whiteNoise.loop = true;
+
+            const filter = ctx.createBiquadFilter();
+            filter.type = 'bandpass';
+            filter.frequency.value = 220;
+            filter.Q.value = 4;
+
+            const lfo = ctx.createOscillator();
+            lfo.frequency.value = 0.12;
+            const lfoGain = ctx.createGain();
+            lfoGain.gain.value = 140;
+
+            lfo.connect(filter.frequency);
+
+            const gain = ctx.createGain();
+            gain.gain.setValueAtTime(0.15, ctx.currentTime);
+
+            whiteNoise.connect(filter);
+            filter.connect(gain);
+            gain.connect(ctx.destination);
+
+            whiteNoise.start();
+            lfo.start();
+
+            return {
+                stop: () => {
+                    gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.5);
+                    setTimeout(() => { whiteNoise.stop(); lfo.stop(); }, 500);
+                }
+            };
+        }
+
+        // Opción 3: Latido Tétrico (Dark Pulse)
+        function createPulseSound(ctx) {
+            let timer = null;
+            let active = true;
+
+            function triggerPulse() {
+                if (!active) return;
+
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(75, ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(25, ctx.currentTime + 0.35);
+
+                gain.gain.setValueAtTime(0.25, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.35);
+
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+
+                osc.start();
+                osc.stop(ctx.currentTime + 0.35);
+
+                setTimeout(() => {
+                    if (!active) return;
+                    const osc2 = ctx.createOscillator();
+                    const gain2 = ctx.createGain();
+
+                    osc2.type = 'sine';
+                    osc2.frequency.setValueAtTime(65, ctx.currentTime);
+                    osc2.frequency.exponentialRampToValueAtTime(20, ctx.currentTime + 0.3);
+
+                    gain2.gain.setValueAtTime(0.18, ctx.currentTime);
+                    gain2.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.3);
+
+                    osc2.connect(gain2);
+                    gain2.connect(ctx.destination);
+
+                    osc2.start();
+                    osc2.stop(ctx.currentTime + 0.3);
+                }, 220);
+
+                timer = setTimeout(triggerPulse, 2400);
+            }
+
+            triggerPulse();
+
+            return {
+                stop: () => {
+                    active = false;
+                    if (timer) clearTimeout(timer);
+                }
+            };
+        }
+
+        // CONTROL DE REPRODUCCIÓN Y CAMBIO
+        function toggleHorrorAudio() {
+            initAudioContext();
+            const btn = document.getElementById('audioToggleBtn');
+            const selectedType = document.getElementById('soundSelect').value;
+
+            if (isPlaying) {
+                stopCurrentSound();
+                isPlaying = false;
+                btn.innerText = '🔊 Probar Ambiente';
+                btn.style.borderColor = 'var(--accent-color)';
+            } else {
+                startSelectedSound(selectedType);
+                isPlaying = true;
+                btn.innerText = '🔇 Detener Ambiente';
+                btn.style.borderColor = '#ff1a1a';
+            }
+        }
+
+        function startSelectedSound(type) {
+            stopCurrentSound();
+            if (type === 'drone') {
+                activeSound = createDroneSound(audioCtx);
+            } else if (type === 'wind') {
+                activeSound = createWindSound(audioCtx);
+            } else if (type === 'pulse') {
+                activeSound = createPulseSound(audioCtx);
+            }
+        }
+
+        document.getElementById('soundSelect').addEventListener('change', function() {
+            if (isPlaying) {
+                startSelectedSound(this.value);
+            }
+        });
+    </script>
+
+</body>
+</html>
